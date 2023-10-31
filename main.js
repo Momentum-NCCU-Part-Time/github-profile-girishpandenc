@@ -1,6 +1,6 @@
 const githubUrl = "https://api.github.com/users/girishpandenc"
 const reposUrl = "https://api.github.com/users/girishpandenc/repos"
-let Container =document.querySelector('.container')
+let container =document.querySelector('.container')
 
 
 fetch(githubUrl).then((response) => {
@@ -9,21 +9,37 @@ fetch(githubUrl).then((response) => {
     console.log(parsedJsonResponse)
     let photo = document.createElement('img')
     let username = document.createElement('h1');
-    let location = document.createElement('h2');
-    let githubUrl = document.createElement('h2');
-    let githubUserName = document.createElement('h2');
+    let githubInfo = document.createElement('ul')
+    let location = document.createElement('li');
+    let githubUrl = document.createElement('li');
+    let urlLink = document.createElement('a')
+    let githubUserName = document.createElement('li');
+    let githubRepos = document.createElement('h1')
     
+    githubInfo.classList.add("github-info");
+    location.classList.add("location");
+    githubUrl.classList.add("github-url");
+    githubUserName.classList.add("github-username");
+    githubRepos.classList.add("github-repos")
+       
     photo.src = parsedJsonResponse['avatar_url'];
     username.innerText = parsedJsonResponse['name'];
     location.innerText = "Location: " + parsedJsonResponse['location'];
     githubUserName.innerText = "GitHub Username: " + parsedJsonResponse['login'];
-    githubUrl.innerText = "GitHub URL: " + parsedJsonResponse['url'];
+    githubUrl.innerText = "GitHub URL: ";
+    urlLink.innerHTML = parsedJsonResponse.login;
+    urlLink.href = parsedJsonResponse.html_url;
+    githubRepos.innerText = "GitHub Repos"
      
-    Container.appendChild(photo);
-    Container.appendChild(username);
-    Container.appendChild(location);
-    Container.appendChild(githubUrl);
-    Container.appendChild(githubUserName);
+    container.appendChild(photo);
+    container.appendChild(username);
+    container.appendChild(githubInfo);
+    githubInfo.appendChild(location);
+    githubInfo.appendChild(githubUrl);
+    githubUrl.appendChild(urlLink);
+    githubInfo.appendChild(githubUserName);
+    container.appendChild(githubRepos);
+    githubRepos.appendChild(reposList);
     
   })
 
@@ -35,5 +51,5 @@ fetch(githubUrl).then((response) => {
     reposList.innerText = parsedJsonResponse[1]['name'] + " " 
     + parsedJsonResponse [2]['name'];
     console.log(reposList.innerText);
-    Container.appendChild(reposList);
+    container.appendChild(reposList);
   })
